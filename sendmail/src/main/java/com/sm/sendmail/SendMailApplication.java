@@ -6,9 +6,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 import com.sm.sendmail.config.EmailConfig;
 import com.sm.sendmail.config.MailGunConfig;
+import com.sm.sendmail.config.SendGridConfig;
 
 @SpringBootApplication
-@EnableConfigurationProperties({EmailConfig.class, MailGunConfig.class})
+@EnableConfigurationProperties({EmailConfig.class, MailGunConfig.class, SendGridConfig.class})
 public class SendMailApplication {
 
 	public static void main(String[] args) {
