@@ -1,5 +1,7 @@
 package com.sm.sendmail.service;
 
+import org.apache.http.HttpResponse;
+
 import com.sm.sendmail.model.EmailData;
 
 /**
@@ -15,8 +17,14 @@ public interface EmailService {
 	 * from, to, subject and message are passed through {@link EmailData} instance
 	 * 
 	 * @param emailData
+	 * @return the response after the attempt to send email
+	 */
+	public HttpResponse sendEmail(EmailData emailData);
+	
+	/**
+	 * Returns the name of this service provider.
 	 * @return
 	 */
-	public String sendEmail(EmailData emailData);
+	public String getProviderName();
 
 }

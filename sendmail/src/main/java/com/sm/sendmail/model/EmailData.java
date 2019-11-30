@@ -7,8 +7,6 @@ package com.sm.sendmail.model;
  */
 public class EmailData {
 	
-	private String from;
-	
 	private String[] to;
 	
 	private String[] cc;
@@ -18,14 +16,6 @@ public class EmailData {
 	private String subject;
 	
 	private String body;
-
-	public String getFrom() {
-		return from;
-	}
-
-	public void setFrom(String from) {
-		this.from = from;
-	}
 
 	public String[] getTo() {
 		return to;
