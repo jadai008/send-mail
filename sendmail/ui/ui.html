@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<style>
+			input {
+				width: 500px;
+			}
+			
+			textarea {
+				width: 500px;
+				height: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Send Email</h1>
+		<hr>
+		<table>
+			<tr><td>To</td><td><input id="to" type="text" placeholder="name@domain.com,name2@domain2.com...."></td></tr>
+			<tr><td>CC</td><td><input id="cc" type="text" placeholder="name@domain.com,name2@domain2.com...."></td></tr>
+			<tr><td>BCC</td><td><input id="bcc" type="text" placeholder="name@domain.com,name2@domain2.com...."></td></tr>
+			<tr><td>Subject</td><td><input id="sub" type="text" placeholder="Subject of the email"></td></tr>
+			<tr><td>Message</td><td><textarea id="text" placeholder="Type your message here"></textarea></td></tr>
+			<tr><td colspan="2"><button id="send" onclick="sendMail()">Send Email</button></td></tr>
+		</table>
+	</body>
+</html>
