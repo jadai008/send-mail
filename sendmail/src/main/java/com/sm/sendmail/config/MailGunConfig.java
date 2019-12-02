@@ -12,8 +12,6 @@ public class MailGunConfig {
 	
 	private String url;
 	
-	private String apiKey;
-	
 	public String getUrl() {
 		return url;
 	}
@@ -23,11 +21,15 @@ public class MailGunConfig {
 	}
 	
 	public String getApiKey() {
+		String apiKey = System.getenv("MAILGUN_APIKEY");
+		if(apiKey == null) {
+			// try to check for system properties for the api key
+			apiKey = System.getProperty("mailgun.apiKey");
+		}
+		if(apiKey == null || apiKey.trim().isEmpty()) {
+			System.out.println("API Key for Mailgun is not configured properly!!");
+		}
 		return apiKey;
 	}
 	
-	public void setApiKey(String apiKey) {
-		this.apiKey = apiKey;
-	}
-
 }

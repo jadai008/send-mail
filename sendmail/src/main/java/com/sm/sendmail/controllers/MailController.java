@@ -3,7 +3,6 @@ package com.sm.sendmail.controllers;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +15,11 @@ import com.sm.sendmail.service.EmailService;
 @RestController
 public class MailController {
 
-	@Autowired
 	private List<EmailService> emailServices;
+	
+	public MailController(List<EmailService> emailServices) {
+		this.emailServices = emailServices;
+	}
 
 	@PostMapping("/send")
 	public ResponseEntity<String> sendMail(@RequestBody EmailData content) {
@@ -41,8 +43,8 @@ public class MailController {
 
 	private void appendProviderBasedError(StringBuffer messages, String providerName, HttpResponse response) {
 		messages.append("Could not send email through provider ").append(providerName);
-		messages.append(": ").append(response.getStatusLine().getReasonPhrase())
-				.append(String.valueOf(response.getStatusLine().getStatusCode()));
+		messages.append(": ").append(response.getStatusLine().getReasonPhrase());
+		messages.append(' ').append(String.valueOf(response.getStatusLine().getStatusCode()));
 		messages.append('\n');
 	}
 

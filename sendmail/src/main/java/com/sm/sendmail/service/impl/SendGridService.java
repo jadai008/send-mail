@@ -8,7 +8,6 @@ import org.apache.http.HttpVersion;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHttpResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +20,15 @@ import com.sm.sendmail.service.EmailService;
 @Service
 public class SendGridService implements EmailService {
 	
-	@Autowired
 	private EmailConfig emailConfig;
 	
-	@Autowired
 	private SendGridConfig sgConfig;
 	
+	public SendGridService(EmailConfig emailConfig, SendGridConfig sgConfig) {
+		this.emailConfig = emailConfig;
+		this.sgConfig = sgConfig;
+	}
+
 	@Override
 	public HttpResponse sendEmail(EmailData emailData) {
 		HttpResponse response =  EmailService.super.sendEmail(emailData);
