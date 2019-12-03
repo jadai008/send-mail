@@ -5,8 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("email")
 public class EmailConfig {
 	
-	private String from = "from";
+	private String from;
 	
+	private int timeout;
 	
 	public String getFrom() {
 		return from;
@@ -16,4 +17,11 @@ public class EmailConfig {
 		this.from = from;
 	}
 	
+	public int getTimeout() {
+		return timeout;
+	}
+	
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
+	}
 }

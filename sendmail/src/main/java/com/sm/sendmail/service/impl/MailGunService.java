@@ -17,17 +17,14 @@ import com.sm.sendmail.Constants;
 import com.sm.sendmail.config.EmailConfig;
 import com.sm.sendmail.config.MailGunConfig;
 import com.sm.sendmail.model.EmailData;
-import com.sm.sendmail.service.EmailService;
 
 @Service
-public class MailGunService  implements EmailService  {
-	
-	private EmailConfig emailConfig;
+public class MailGunService  extends  AbstractEmailService  {
 	
 	private MailGunConfig mgConfig;
 	
 	public MailGunService(EmailConfig eConfig, MailGunConfig mConfig) {
-		this.emailConfig = eConfig;
+		super(eConfig);
 		this.mgConfig = mConfig;
 	}
 
@@ -36,7 +33,7 @@ public class MailGunService  implements EmailService  {
 		request.setURI(new URI(mgConfig.getUrl()));
 		request.addHeader("Authorization", "Basic " + Base64.encodeBase64String(mgConfig.getApiKey().getBytes()));
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair(Constants.FROM, emailConfig.getFrom()));
+		params.add(new BasicNameValuePair(Constants.FROM, getEmailConfig().getFrom()));
 		addRecipientList(params, data.getTo(), Constants.TO);
 		addRecipientList(params, data.getCc(), Constants.CC);
 		addRecipientList(params, data.getBcc(), Constants.BCC);

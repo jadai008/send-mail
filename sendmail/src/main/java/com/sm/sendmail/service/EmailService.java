@@ -25,24 +25,7 @@ public interface EmailService {
 	 * @param emailData
 	 * @return the response after the attempt to send email
 	 */
-	public default HttpResponse sendEmail(EmailData emailData) {
-
-		
-		HttpClient httpCLient = HttpClientBuilder.create().build();
-		String errMsg = "";
-		try {
-			HttpPost request = buildRequest(emailData);
-			HttpResponse response = httpCLient.execute(request);
-			System.out.println(response);
-			return response;
-		} catch ( Exception e) {
-			e.printStackTrace();
-			errMsg = e.getMessage();
-		} 
-		
-		return new BasicHttpResponse(new HttpVersion(1, 1), HttpStatus.INTERNAL_SERVER_ERROR.value(), errMsg);
-	
-	}
+	public HttpResponse sendEmail(EmailData emailData);
 	
 	/**
 	 * Service provider specific way of building the POST request to be executed while sending the email.

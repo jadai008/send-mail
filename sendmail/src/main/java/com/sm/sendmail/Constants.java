@@ -14,4 +14,6 @@ public interface Constants {
 	
 	String CC = "cc";
 
+	String TIMEOUT = "timeOut";
+
 }

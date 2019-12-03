@@ -15,23 +15,20 @@ import com.sm.sendmail.Constants;
 import com.sm.sendmail.config.EmailConfig;
 import com.sm.sendmail.config.SendGridConfig;
 import com.sm.sendmail.model.EmailData;
-import com.sm.sendmail.service.EmailService;
 
 @Service
-public class SendGridService implements EmailService {
-	
-	private EmailConfig emailConfig;
+public class SendGridService extends  AbstractEmailService {
 	
 	private SendGridConfig sgConfig;
 	
 	public SendGridService(EmailConfig emailConfig, SendGridConfig sgConfig) {
-		this.emailConfig = emailConfig;
+		super(emailConfig);
 		this.sgConfig = sgConfig;
 	}
 
 	@Override
 	public HttpResponse sendEmail(EmailData emailData) {
-		HttpResponse response =  EmailService.super.sendEmail(emailData);
+		HttpResponse response =  super.sendEmail(emailData);
 		if(response.getStatusLine().getStatusCode() == HttpStatus.ACCEPTED.value()) {
 			return new BasicHttpResponse(new HttpVersion(1, 1), HttpStatus.OK.value(), "Email sent successfully!");
 		}
@@ -75,7 +72,7 @@ public class SendGridService implements EmailService {
 			json.append(',');
 		}
 		json.append(bccList);
-		json.append("],").append("\"from\" : ").append("{\"email\" : \"").append(emailConfig.getFrom());
+		json.append("],").append("\"from\" : ").append("{\"email\" : \"").append(getEmailConfig().getFrom());
 		json.append("\"}").append(",");
 		json.append("\"subject\" : ").append("\"").append(data.getSubject()).append("\",");
 		json.append("\"content\" : [{\"type\" : \"text/plain\", \"value\" : \"").append(data.getBody()).append("\"}");
