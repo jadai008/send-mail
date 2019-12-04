@@ -8,6 +8,7 @@ import org.apache.http.HttpVersion;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHttpResponse;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import com.sm.sendmail.config.SendGridConfig;
 import com.sm.sendmail.model.EmailData;
 
 @Service
+@Qualifier("primary")
 public class SendGridService extends  AbstractEmailService {
 	
 	private SendGridConfig sgConfig;

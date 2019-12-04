@@ -11,6 +11,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.sm.sendmail.Constants;
@@ -19,6 +20,7 @@ import com.sm.sendmail.config.MailGunConfig;
 import com.sm.sendmail.model.EmailData;
 
 @Service
+@Qualifier("secondary")
 public class MailGunService  extends  AbstractEmailService  {
 	
 	private MailGunConfig mgConfig;

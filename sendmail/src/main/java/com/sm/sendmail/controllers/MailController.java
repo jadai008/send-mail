@@ -1,8 +1,8 @@
 package com.sm.sendmail.controllers;
 
-import java.util.List;
-
 import org.apache.http.HttpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,31 +17,35 @@ import com.sm.sendmail.util.EmailDataValidator;
 @RestController
 public class MailController {
 
-	private List<EmailService> emailServices;
+	@Autowired
+	@Qualifier("primary")
+	private EmailService primaryService;
 
-	public MailController(List<EmailService> emailServices) {
-		this.emailServices = emailServices;
-	}
+	@Autowired
+	@Qualifier("secondary")
+	private EmailService secondaryService;
 
 	@PostMapping("/send")
 	public ResponseEntity<String> sendMail(@RequestBody EmailData content) {
-
-		if (emailServices == null || emailServices.isEmpty()) {
-			return new ResponseEntity<String>("No Email providers configured!!", HttpStatus.NO_CONTENT);
-		}
+		ResponseEntity<String> successEntity = new ResponseEntity<String>("Email successfully sent!!", HttpStatus.OK);
 		String errMsg = EmailDataValidator.validate(content);
-		if(errMsg != null) {
+		if (errMsg != null) {
 			return new ResponseEntity<String>(errMsg, HttpStatus.BAD_REQUEST);
 		}
 		StringBuffer messages = new StringBuffer();
-		for (EmailService service : emailServices) {
-			String providerName = service.getProviderName();
-			System.out.println("Trying to send through email provider: " + providerName);
-			HttpResponse response = service.sendEmail(content);
+		System.out.println("Trying to send through email provider: " + primaryService.getProviderName());
+		HttpResponse response = primaryService.sendEmail(content);
+		if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
+			return successEntity;
+		} else {
+			appendProviderBasedError(messages, primaryService.getProviderName(), response);
+			System.out.println("Failed to send using primary provider. Trying to send through secondary provider: "
+					+ secondaryService.getProviderName());
+			response = secondaryService.sendEmail(content);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
-				return new ResponseEntity<String>("Email successfully sent!!", HttpStatus.OK);
+				return successEntity;
 			} else {
-				appendProviderBasedError(messages, providerName, response);
+				appendProviderBasedError(messages, secondaryService.getProviderName(), response);
 			}
 		}
 		return new ResponseEntity<String>(
@@ -58,8 +62,9 @@ public class MailController {
 
 	/**
 	 * This method is just to simulate time out. This just sleeps for the
-	 * <code>timeout</code> + 5 seconds so that the calling http client times out. The <code>timeout</code>
-	 * should be passed by the calling client to match its time out limits
+	 * <code>timeout</code> + 5 seconds so that the calling http client times out.
+	 * The <code>timeout</code> should be passed by the calling client to match its
+	 * time out limits
 	 * 
 	 * @param timeOut
 	 * @return
