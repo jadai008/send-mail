@@ -9,12 +9,16 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sm.sendmail.config.EmailConfig;
 import com.sm.sendmail.model.EmailData;
 import com.sm.sendmail.service.impl.AbstractEmailService;
 
 public class DummyService extends AbstractEmailService {
+
+	private Logger logger = LoggerFactory.getLogger(DummyService.class);
 
 	private static final String TIMEOUT_URL = "http://localhost:8080/sendTimeOut";
 
@@ -31,8 +35,7 @@ public class DummyService extends AbstractEmailService {
 		try {
 			request.setEntity(new UrlEncodedFormEntity(params));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			System.out.println("Exception occurred: " + e);
+			logger.error(e.getMessage(), e);
 		}
 		return request;
 	}
