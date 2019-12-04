@@ -1,12 +1,7 @@
 package com.sm.sendmail.service;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicHttpResponse;
-import org.springframework.http.HttpStatus;
 
 import com.sm.sendmail.model.EmailData;
 

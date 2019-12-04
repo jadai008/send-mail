@@ -9,9 +9,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
-import org.springframework.stereotype.Service;
 
-import com.sm.sendmail.Constants;
 import com.sm.sendmail.config.EmailConfig;
 import com.sm.sendmail.model.EmailData;
 import com.sm.sendmail.service.impl.AbstractEmailService;

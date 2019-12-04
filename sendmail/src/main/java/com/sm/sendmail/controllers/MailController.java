@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sm.sendmail.model.EmailData;
 import com.sm.sendmail.service.EmailService;
+import com.sm.sendmail.util.EmailDataValidator;
 
 @RestController
 public class MailController {
@@ -27,6 +28,10 @@ public class MailController {
 
 		if (emailServices == null || emailServices.isEmpty()) {
 			return new ResponseEntity<String>("No Email providers configured!!", HttpStatus.NO_CONTENT);
+		}
+		String errMsg = EmailDataValidator.validate(content);
+		if(errMsg != null) {
+			return new ResponseEntity<String>(errMsg, HttpStatus.BAD_REQUEST);
 		}
 		StringBuffer messages = new StringBuffer();
 		for (EmailService service : emailServices) {
