@@ -1,6 +1,8 @@
 package com.sm.sendmail.controllers;
 
 import org.apache.http.HttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import com.sm.sendmail.util.EmailDataValidator;
 
 @RestController
 public class MailController {
+
+	private Logger logger = LoggerFactory.getLogger(MailController.class);
 
 	@Autowired
 	@Qualifier("primary")
@@ -33,13 +37,13 @@ public class MailController {
 			return new ResponseEntity<String>(errMsg, HttpStatus.BAD_REQUEST);
 		}
 		StringBuffer messages = new StringBuffer();
-		System.out.println("Trying to send through email provider: " + primaryService.getProviderName());
+		logger.info("Trying to send through email provider: " + primaryService.getProviderName());
 		HttpResponse response = primaryService.sendEmail(content);
 		if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
 			return successEntity;
 		} else {
 			appendProviderBasedError(messages, primaryService.getProviderName(), response);
-			System.out.println("Failed to send using primary provider. Trying to send through secondary provider: "
+			logger.warn("Failed to send using primary provider. Trying to send through secondary provider: "
 					+ secondaryService.getProviderName());
 			response = secondaryService.sendEmail(content);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
@@ -74,7 +78,7 @@ public class MailController {
 		try {
 			Thread.sleep((timeOut + 5) * 1000);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 		return "Success!!";
 	}

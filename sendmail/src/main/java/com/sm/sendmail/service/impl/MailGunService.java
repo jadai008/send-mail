@@ -11,6 +11,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import com.sm.sendmail.model.EmailData;
 @Service
 @Qualifier("secondary")
 public class MailGunService extends AbstractEmailService {
+
+	private Logger logger = LoggerFactory.getLogger(MailGunService.class);
 
 	private MailGunConfig mgConfig;
 
@@ -44,15 +48,14 @@ public class MailGunService extends AbstractEmailService {
 		try {
 			request.setEntity(new UrlEncodedFormEntity(params));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			System.out.println("Exception occurred: " + e);
+			logger.error(e.getMessage(), e);
 		}
 		return request;
 	}
 
 	private void addRecipientList(List<NameValuePair> params, String[] recipients, String recipientType) {
 		if (recipients == null || recipients.length == 0) {
-			System.out.println("No recipients provided for type " + recipientType);
+			logger.info("No recipients provided for type " + recipientType);
 			return;
 		}
 		for (String recipient : recipients) {

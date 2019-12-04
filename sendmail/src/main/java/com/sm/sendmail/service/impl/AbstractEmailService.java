@@ -7,6 +7,8 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import com.sm.sendmail.config.EmailConfig;
@@ -23,6 +25,8 @@ import com.sm.sendmail.service.EmailService;
  */
 public abstract class AbstractEmailService implements EmailService {
 
+	private Logger logger = LoggerFactory.getLogger(AbstractEmailService.class);
+
 	private EmailConfig emailConfig;
 
 	public AbstractEmailService(EmailConfig config) {
@@ -36,10 +40,10 @@ public abstract class AbstractEmailService implements EmailService {
 		try {
 			HttpPost request = buildRequest(emailData);
 			HttpResponse response = httpCLient.execute(request);
-			System.out.println(response);
+			logger.debug("Response received = " + response);
 			return response;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			errMsg = e.getMessage();
 		}
 
@@ -56,7 +60,7 @@ public abstract class AbstractEmailService implements EmailService {
 	 */
 	protected RequestConfig getRequestConfig() {
 		int timeout = emailConfig.getTimeout() * 1000;
-		System.out.println("Time out is configured for " + emailConfig.getTimeout() + " seconds.");
+		logger.info("Time out is configured for " + emailConfig.getTimeout() + " seconds.");
 		RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(timeout).setSocketTimeout(timeout)
 				.setConnectTimeout(timeout).build();
 		return config;

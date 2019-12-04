@@ -43,4 +43,34 @@ public interface Constants {
 	 */
 	String TIMEOUT = "timeOut";
 
+	/**
+	 * Environment variable for MailGun domain name
+	 */
+	String MAILGUN_DOMAIN = "MAILGUN_DOMAIN";
+
+	/**
+	 * System properties key for MailGun domain name
+	 */
+	String MAILGUN_DOMAIN_PROP = "mailgun.domain";
+
+	/**
+	 * Environment variable for MailGun API key
+	 */
+	String MAILGUN_API_KEY = "MAILGUN_APIKEY";
+
+	/**
+	 * System properties key for MailGun API key
+	 */
+	String MAILGUN_API_KEY_PROP = "mailgun.apiKey";
+
+	/**
+	 * Environment variable for SendGrid API key
+	 */
+	String SENDGRID_API_KEY = "SENDGRID_APIKEY";
+
+	/**
+	 * System properties key for SendGrid API key
+	 */
+	String SENDGRID_API_KEY_PROP = "sendgrid.apiKey";
+
 }

@@ -8,6 +8,8 @@ import org.apache.http.HttpVersion;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import com.sm.sendmail.model.EmailData;
 @Service
 @Qualifier("primary")
 public class SendGridService extends AbstractEmailService {
+
+	private Logger logger = LoggerFactory.getLogger(SendGridService.class);
 
 	private SendGridConfig sgConfig;
 
@@ -48,7 +52,7 @@ public class SendGridService extends AbstractEmailService {
 			StringEntity entity = new StringEntity(toJson(data));
 			request.setEntity(entity);
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 		return request;
 	}
