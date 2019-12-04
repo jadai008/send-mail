@@ -1,20 +1,21 @@
 package com.sm.sendmail.model;
 
 /**
- * Model class to hold the necessary information for sending an email. 
+ * Model class to hold the necessary information for sending an email.
+ * 
  * @author jadai008
  *
  */
 public class EmailData {
-	
+
 	private String[] to;
-	
+
 	private String[] cc;
-	
+
 	private String[] bcc;
-	
+
 	private String subject;
-	
+
 	private String body;
 
 	public String[] getTo() {
@@ -56,7 +57,5 @@ public class EmailData {
 	public void setBody(String body) {
 		this.body = body;
 	}
-	
-	
 
 }

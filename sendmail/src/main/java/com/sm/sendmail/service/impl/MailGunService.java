@@ -21,10 +21,10 @@ import com.sm.sendmail.model.EmailData;
 
 @Service
 @Qualifier("secondary")
-public class MailGunService  extends  AbstractEmailService  {
-	
+public class MailGunService extends AbstractEmailService {
+
 	private MailGunConfig mgConfig;
-	
+
 	public MailGunService(EmailConfig eConfig, MailGunConfig mConfig) {
 		super(eConfig);
 		this.mgConfig = mConfig;
@@ -51,15 +51,15 @@ public class MailGunService  extends  AbstractEmailService  {
 	}
 
 	private void addRecipientList(List<NameValuePair> params, String[] recipients, String recipientType) {
-		if(recipients == null || recipients.length == 0) {
+		if (recipients == null || recipients.length == 0) {
 			System.out.println("No recipients provided for type " + recipientType);
 			return;
 		}
-		for(String recipient : recipients) {
+		for (String recipient : recipients) {
 			params.add(new BasicNameValuePair(recipientType, recipient));
 		}
 	}
-	
+
 	@Override
 	public String getProviderName() {
 		return "Mailgun";

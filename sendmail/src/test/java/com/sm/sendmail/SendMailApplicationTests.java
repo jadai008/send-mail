@@ -56,9 +56,8 @@ class SendMailApplicationTests {
 	void testProvidersSetup() {
 		assertThat(emailServices).isNotNull();
 		assertThat(emailServices).isNotEmpty();
-		assertThat(emailServices.size()).isEqualTo(2); //including dummy service
+		assertThat(emailServices.size()).isEqualTo(2); // including dummy service
 	}
-	
 
 	@Test
 	void mailGunSendOk() {

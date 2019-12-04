@@ -19,10 +19,10 @@ import com.sm.sendmail.model.EmailData;
 
 @Service
 @Qualifier("primary")
-public class SendGridService extends  AbstractEmailService {
-	
+public class SendGridService extends AbstractEmailService {
+
 	private SendGridConfig sgConfig;
-	
+
 	public SendGridService(EmailConfig emailConfig, SendGridConfig sgConfig) {
 		super(emailConfig);
 		this.sgConfig = sgConfig;
@@ -30,8 +30,8 @@ public class SendGridService extends  AbstractEmailService {
 
 	@Override
 	public HttpResponse sendEmail(EmailData emailData) {
-		HttpResponse response =  super.sendEmail(emailData);
-		if(response.getStatusLine().getStatusCode() == HttpStatus.ACCEPTED.value()) {
+		HttpResponse response = super.sendEmail(emailData);
+		if (response.getStatusLine().getStatusCode() == HttpStatus.ACCEPTED.value()) {
 			return new BasicHttpResponse(new HttpVersion(1, 1), HttpStatus.OK.value(), "Email sent successfully!");
 		}
 		return response;
@@ -58,7 +58,6 @@ public class SendGridService extends  AbstractEmailService {
 		return "SendGrid";
 	}
 
-	
 	private String toJson(EmailData data) {
 		StringBuffer json = new StringBuffer();
 		json.append('{');
@@ -66,11 +65,11 @@ public class SendGridService extends  AbstractEmailService {
 		String ccList = getRecipientList(data.getCc(), Constants.CC);
 		String bccList = getRecipientList(data.getBcc(), Constants.BCC);
 		json.append("\"personalizations\" : [").append(toList);
-		if(!toList.isEmpty() && (!ccList.isEmpty() || !bccList.isEmpty())) {
+		if (!toList.isEmpty() && (!ccList.isEmpty() || !bccList.isEmpty())) {
 			json.append(',');
 		}
 		json.append(ccList);
-		if(!ccList.isEmpty() && !bccList.isEmpty()) {
+		if (!ccList.isEmpty() && !bccList.isEmpty()) {
 			json.append(',');
 		}
 		json.append(bccList);
@@ -83,13 +82,13 @@ public class SendGridService extends  AbstractEmailService {
 	}
 
 	private String getRecipientList(String[] recipients, String recipientType) {
-		if(recipients == null || recipients.length == 0) {
+		if (recipients == null || recipients.length == 0) {
 			return "";
 		}
 		StringBuffer list = new StringBuffer("{\"").append(recipientType).append("\" : [");
-		for(int i = 0; i < recipients.length; i++) {
+		for (int i = 0; i < recipients.length; i++) {
 			list.append("{\"email\" : \"").append(recipients[i]).append("\"}");
-			if(i < recipients.length - 1) {
+			if (i < recipients.length - 1) {
 				list.append(',');
 			}
 		}

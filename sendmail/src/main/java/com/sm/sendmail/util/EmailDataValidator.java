@@ -14,7 +14,7 @@ public class EmailDataValidator {
 
 	// compile a pattern with simple email matching regex
 	private static final String EMAIL_PATTERN = "\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})";
-	private static final int MAX_SIZE = 25 *1024 * 1024; //Mailgun limit
+	private static final int MAX_SIZE = 25 * 1024 * 1024; // Mailgun limit
 
 	/**
 	 * Validates and returns the first validation error message. Validation stops
@@ -39,16 +39,16 @@ public class EmailDataValidator {
 	}
 
 	private static String validateMandatoryFields(EmailData data) {
-		if(data == null) {
+		if (data == null) {
 			return "No email data provided";
 		}
-		if(data.getTo() == null || data.getTo().length == 0) {
+		if (data.getTo() == null || data.getTo().length == 0) {
 			return "At least one recipient should be specified in 'To'";
 		}
-		if(data.getBody() == null || data.getBody().isEmpty()) {
+		if (data.getBody() == null || data.getBody().isEmpty()) {
 			return "Email message is empty";
 		}
-		if(data.getSubject() == null || data.getSubject().isEmpty()) {
+		if (data.getSubject() == null || data.getSubject().isEmpty()) {
 			return "Subject is empty";
 		}
 		return null;
@@ -56,8 +56,8 @@ public class EmailDataValidator {
 
 	private static String validateSize(EmailData data) {
 		String body = data.getBody();
-		if(body != null) {
-			if(body.length() > MAX_SIZE) {
+		if (body != null) {
+			if (body.length() > MAX_SIZE) {
 				return "The size of the email is beyond the allowed limit (25MB).";
 			}
 		}

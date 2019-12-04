@@ -21,17 +21,20 @@ public interface EmailService {
 	 * @return the response after the attempt to send email
 	 */
 	public HttpResponse sendEmail(EmailData emailData);
-	
+
 	/**
-	 * Service provider specific way of building the POST request to be executed while sending the email.
+	 * Service provider specific way of building the POST request to be executed
+	 * while sending the email.
+	 * 
 	 * @param data
 	 * @return
 	 * @throws Exception
 	 */
 	public HttpPost buildRequest(EmailData data) throws Exception;
-	
+
 	/**
 	 * Returns the name of this service provider.
+	 * 
 	 * @return
 	 */
 	public String getProviderName();
