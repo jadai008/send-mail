@@ -74,5 +74,5 @@ The following tasks are not done.
 2. The code just returns the success status after the message is queued/dispatched to the gateway. Whether the mail is actually delivered or bounced is not being monitored.
 3. The sent mails are not stored anywhere using/in the application
 4. Regex used to validate email addresses is simple and may not cover corner cases.
-5. Only sandbox domain provided by MailGun is used in this application. No custom domain configured. (This is also the reason why MailGun is the secondary provider. The sand box domain allows only pre-authorized/added email addresses to receive emails)
+5. No custom domain configured for MailGun. Only sandbox domain provided is used in my MailGun account. (This is also the reason why MailGun is the secondary provider. The sand box domain allows only pre-authorized/added email addresses to receive emails)
 6. In the interest of time, the Json data needed for SendGrid is built using StringBuffer rather than using a class and ObjectMapper. 
