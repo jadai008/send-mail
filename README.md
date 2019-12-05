@@ -13,7 +13,7 @@ the services goes down, the service fails over to a different provider without a
 ## Building the source code
 - Clone this repo to your local machine from https://github.com/jadai008/send-mail.git
 - Open your favourite command line terminal (cmd, git bash etc...) 
-- change the directory to <cloned-project-location>/sendmail
+- change the directory to &lt;cloned-project-location&gt;/sendmail
 - Use the corresponding Maven wrapper utility to build the code (For Windows `mvnw.cmd` and for other OS use `mvnw`)
 	- *nix: `./mvnw clean package -DskipTests` 
 	- Windows: `mvnm.cmd clean package -DskipTests`
@@ -24,7 +24,7 @@ the services goes down, the service fails over to a different provider without a
 ## Running the application
 There are two ways of running the code
 1. Build the code using above step and use `java -Dmailgun.apiKey=<Your MailGun Api Key> -Dsendgrid.apiKey=<Your SendGrid Api Key> -Dmailgun.domain=<Your mailgun domain name> -jar target/sendmail-0.0.1-SNAPSHOT.jar` (just after the build command succeeds)
-2. Simply run `./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Dmailgun.apiKey=<Your MailGun Api Key> -Dsendgrid.apiKey=<Your SendGrid Api Key> -Dmailgun.domain=<Your mailgun domain name>"` (from <cloned-project-location>/sendmail directory. Use mvnw.cmd for Windows)
+2. Simply run `./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Dmailgun.apiKey=<Your MailGun Api Key> -Dsendgrid.apiKey=<Your SendGrid Api Key> -Dmailgun.domain=<Your mailgun domain name>"` (from &lt;cloned-project-location&gt;/sendmail directory. Use mvnw.cmd for Windows)
 
 Alternatively you can set the following environment variables
 
