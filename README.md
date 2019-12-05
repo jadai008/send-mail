@@ -13,7 +13,7 @@ the services goes down, the service fails over to a different provider without a
 ## Building the source code
 - Clone this repo to your local machine from https://github.com/jadai008/send-mail.git
 - Open your favourite command line terminal (cmd, git bash etc...) 
-- change the directory to &lt;cloned-project-location&gt;/sendmail
+- Change the working directory to &lt;cloned-project-location&gt;/sendmail
 - Use the corresponding Maven wrapper utility to build the code (For Windows `mvnw.cmd` and for other OS use `mvnw`)
 	- *nix: `./mvnw clean package -DskipTests` 
 	- Windows: `mvnm.cmd clean package -DskipTests`
