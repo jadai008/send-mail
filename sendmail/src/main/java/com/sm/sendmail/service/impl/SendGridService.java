@@ -49,7 +49,9 @@ public class SendGridService extends AbstractEmailService {
 		request.addHeader("Content-Type", "application/json");
 
 		try {
-			StringEntity entity = new StringEntity(toJson(data));
+			String json = toJson(data);
+			logger.info("Payload for SendGrid = " + json);
+			StringEntity entity = new StringEntity(json);
 			request.setEntity(entity);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage(), e);
@@ -68,7 +70,7 @@ public class SendGridService extends AbstractEmailService {
 		String toList = getRecipientList(data.getTo(), Constants.TO);
 		String ccList = getRecipientList(data.getCc(), Constants.CC);
 		String bccList = getRecipientList(data.getBcc(), Constants.BCC);
-		json.append("\"personalizations\" : [").append(toList);
+		json.append("\"personalizations\" : [{").append(toList);
 		if (!toList.isEmpty() && (!ccList.isEmpty() || !bccList.isEmpty())) {
 			json.append(',');
 		}
@@ -77,7 +79,7 @@ public class SendGridService extends AbstractEmailService {
 			json.append(',');
 		}
 		json.append(bccList);
-		json.append("],").append("\"from\" : ").append("{\"email\" : \"").append(getEmailConfig().getFrom());
+		json.append("}],").append("\"from\" : ").append("{\"email\" : \"").append(getEmailConfig().getFrom());
 		json.append("\"}").append(",");
 		json.append("\"subject\" : ").append("\"").append(data.getSubject()).append("\",");
 		json.append("\"content\" : [{\"type\" : \"text/plain\", \"value\" : \"").append(data.getBody()).append("\"}");
@@ -89,14 +91,14 @@ public class SendGridService extends AbstractEmailService {
 		if (recipients == null || recipients.length == 0) {
 			return "";
 		}
-		StringBuffer list = new StringBuffer("{\"").append(recipientType).append("\" : [");
+		StringBuffer list = new StringBuffer("\"").append(recipientType).append("\" : [");
 		for (int i = 0; i < recipients.length; i++) {
 			list.append("{\"email\" : \"").append(recipients[i]).append("\"}");
 			if (i < recipients.length - 1) {
 				list.append(',');
 			}
 		}
-		list.append("]}");
+		list.append("]");
 		return list.toString();
 	}
 

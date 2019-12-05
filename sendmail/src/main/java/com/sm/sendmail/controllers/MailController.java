@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import com.sm.sendmail.model.EmailData;
 import com.sm.sendmail.service.EmailService;
 import com.sm.sendmail.util.EmailDataValidator;
 
+@CrossOrigin("*")
 @RestController
 public class MailController {
 
@@ -51,6 +53,7 @@ public class MailController {
 		logger.info("Trying to send through email provider: " + providerName);
 		HttpResponse response = service.sendEmail(data);
 		if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
+			logger.info("**** Email dispatched successfully through provider: " + providerName + " ****");
 			return true;
 		} else {
 			appendProviderBasedError(msgs, providerName, response);
