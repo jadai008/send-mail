@@ -57,7 +57,7 @@ public class EmailDataValidator {
 	private static String validateSize(EmailData data) {
 		String body = data.getBody();
 		if (body != null) {
-			if (body.length() > MAX_SIZE) {
+			if (body.getBytes().length > MAX_SIZE) {
 				return "The size of the email is beyond the allowed limit (25MB).";
 			}
 		}

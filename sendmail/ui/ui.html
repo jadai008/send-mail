@@ -10,17 +10,63 @@
 				height: 300px;
 			}
 		</style>
+		<script>
+			function sendMail() {
+				document.getElementById("msg").style.color = "black";
+				document.getElementById("msg").innerHTML = 'Sending Request....';
+				var obj = {};
+				var to = document.getElementById('to').value;
+				var cc = document.getElementById('cc').value
+				var bcc = document.getElementById('bcc').value;
+				if(to.length > 0) {
+					var toArr = to.split(',');
+					obj['to'] = toArr;
+				}
+				if(cc.length > 0) {
+				var ccArr = cc.split(',');
+				obj['cc'] = ccArr;
+				}
+				if(bcc.length > 0) {
+				var bccArr = bcc.split(',');
+				obj['bcc'] = bccArr;
+				}
+				var sub = document.getElementById('sub').value;
+				var body = document.getElementById('text').value;
+				obj['subject'] = sub;
+				obj['body'] = body;
+				var json = JSON.stringify(obj);
+				//alert(json);
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4) {
+						if(this.status == 200) {
+							 document.getElementById("msg").style.color = "green";
+						} else {
+							 document.getElementById("msg").style.color = "red";
+						}
+					  document.getElementById("msg").innerHTML = 'Message: ' + this.responseText;
+					}
+				};
+			  xhttp.open("POST", "http://sendmail-dev.iyfqtddhkp.ap-southeast-2.elasticbeanstalk.com/send", true);
+			 // xhttp.open("POST", "http://localhost:8080/send", true);
+			  xhttp.setRequestHeader("Content-type", "application/json");
+			  xhttp.send(json);
+			}
+		</script>
 	</head>
 	<body>
 		<h1>Send Email</h1>
 		<hr>
 		<table>
-			<tr><td>To</td><td><input id="to" type="text" placeholder="name@domain.com,name2@domain2.com...."></td></tr>
+			<tr><td colspan="2"><div id="msg"></div></td></tr>
+			<tr><td>To*</td><td><input id="to" type="text" placeholder="name@domain.com,name2@domain2.com...."></td></tr>
 			<tr><td>CC</td><td><input id="cc" type="text" placeholder="name@domain.com,name2@domain2.com...."></td></tr>
 			<tr><td>BCC</td><td><input id="bcc" type="text" placeholder="name@domain.com,name2@domain2.com...."></td></tr>
-			<tr><td>Subject</td><td><input id="sub" type="text" placeholder="Subject of the email"></td></tr>
-			<tr><td>Message</td><td><textarea id="text" placeholder="Type your message here"></textarea></td></tr>
+			<tr><td>Subject*</td><td><input id="sub" type="text" placeholder="Subject of the email"></td></tr>
+			<tr><td>Message*</td><td><textarea id="text" placeholder="Type your message here"></textarea></td></tr>
 			<tr><td colspan="2"><button id="send" onclick="sendMail()">Send Email</button></td></tr>
 		</table>
+		<hr>
+		Note: Fields marked with * are mandatory
 	</body>
 </html>
