@@ -37,24 +37,27 @@ public class MailController {
 			return new ResponseEntity<String>(errMsg, HttpStatus.BAD_REQUEST);
 		}
 		StringBuffer messages = new StringBuffer();
-		logger.info("Trying to send through email provider: " + primaryService.getProviderName());
-		HttpResponse response = primaryService.sendEmail(content);
-		if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
+		if (tryService(primaryService, content, messages) || tryService(secondaryService, content, messages)) {
 			return successEntity;
 		} else {
-			appendProviderBasedError(messages, primaryService.getProviderName(), response);
-			logger.warn("Failed to send using primary provider. Trying to send through secondary provider: "
-					+ secondaryService.getProviderName());
-			response = secondaryService.sendEmail(content);
-			if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
-				return successEntity;
-			} else {
-				appendProviderBasedError(messages, secondaryService.getProviderName(), response);
-			}
+			return new ResponseEntity<String>(
+					"Could not send email through any configured service = " + messages.toString(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<String>(
-				"Could not send email through any configured service = " + messages.toString(),
-				HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	private boolean tryService(EmailService service, EmailData data, StringBuffer msgs) {
+		String providerName = service.getProviderName();
+		logger.info("Trying to send through email provider: " + providerName);
+		HttpResponse response = service.sendEmail(data);
+		if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
+			return true;
+		} else {
+			appendProviderBasedError(msgs, providerName, response);
+			logger.warn("Failed to send using provider " + providerName + " : "
+					+ response.getStatusLine().getReasonPhrase());
+		}
+		return false;
 	}
 
 	private void appendProviderBasedError(StringBuffer messages, String providerName, HttpResponse response) {
