@@ -23,7 +23,7 @@ the services goes down, the service fails over to a different provider without a
 
 ## Running the application
 There are two ways of running the code
-1. Build the code using above step and use `java -Dmailgun.apiKey=<Your MailGun Api Key> -Dsendgrid.apiKey=<Your SendGrid Api Key> -Dmailgun.domain=<Your mailgun domain name> -jar target/sendmail-0.0.1-SNAPSHOT.jar` (just after the build command succeeds)
+1. Build the code using the step mentioned above and use `java -Dmailgun.apiKey=<Your MailGun Api Key> -Dsendgrid.apiKey=<Your SendGrid Api Key> -Dmailgun.domain=<Your mailgun domain name> -jar target/sendmail-0.0.1-SNAPSHOT.jar` (just after the build command succeeds)
 2. Simply run `./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Dmailgun.apiKey=<Your MailGun Api Key> -Dsendgrid.apiKey=<Your SendGrid Api Key> -Dmailgun.domain=<Your mailgun domain name>"` (from &lt;cloned-project-location&gt;/sendmail directory. Use mvnw.cmd for Windows)
 
 Alternatively you can set the following environment variables
@@ -32,7 +32,7 @@ Alternatively you can set the following environment variables
 - `MAILGUN_DOMAIN=<Your MailGun domain>`
 - `SENDGRID_APIKEY=<Your SendGrid Api key>`
 
-and run the above commands with out jvm arguments (`java -jar target/sendmail-0.0.1-SNAPSHOT.jar` or `./mvnw spring-boot:run`) 
+and run the above commands without jvm arguments (`java -jar target/sendmail-0.0.1-SNAPSHOT.jar` or `./mvnw spring-boot:run`) 
 
 ## Usage of the REST API
 For this I assume that your spring-boot application runs on `localhost` at port `8080` (default config). 
@@ -72,7 +72,7 @@ The following tasks are not done.
 
 1. Before sending email, the code does not check whether all the recipients are really existing. 
 2. The code just returns the success status after the message is queued/dispatched to the gateway. Whether the mail is actually delivered or bounced is not being monitored.
-3. The sent mails are not stored anywhere using/in the application/json`
+3. The sent mails are not stored anywhere using/in the application
 4. Regex used to validate email addresses is simple and may not cover corner cases.
 5. Only sandbox domain provided by MailGun is used in this application. No custom domain configured. (This is also the reason why MailGun is the secondary provider. The sand box domain allows only pre-authorized/added email addresses to receive emails)
 6. In the interest of time, the Json data needed for SendGrid is built using StringBuffer rather than using a class and ObjectMapper. 
